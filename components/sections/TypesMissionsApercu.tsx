@@ -5,12 +5,6 @@ import { useRef } from "react";
 import Link from "next/link";
 import { TYPES_MISSIONS } from "@/lib/constants";
 
-const urgenceStyles: Record<string, { text: string; label: string }> = {
-  haute: { text: "text-red-600", label: "Urgence haute" },
-  moyenne: { text: "text-amber-600", label: "Urgence moyenne" },
-  planifiée: { text: "text-emerald-600", label: "Planifiée" },
-};
-
 export default function TypesMissionsApercu() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -44,46 +38,32 @@ export default function TypesMissionsApercu() {
 
           {/* Missions Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-            {missionsArray.map((mission, index) => {
-              const urgence = urgenceStyles[mission.urgence];
-              return (
-                <motion.div
-                  key={mission.code}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: index * 0.05 }}
-                  className="border-t border-stone-200 pt-4"
-                >
-                  <div className="flex items-center gap-3 mb-3">
+            {missionsArray.map((mission, index) => (
+              <motion.div
+                key={mission.code}
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: index * 0.05 }}
+                className="border-t border-stone-200 pt-4"
+              >
+                <h3 className="text-lg font-bold text-stone-900 mb-2">
+                  {mission.nom}
+                </h3>
+                <p className="text-stone-600 text-sm mb-3 line-clamp-2">
+                  {mission.description}
+                </p>
+                <div className="flex flex-wrap gap-1">
+                  {mission.competences.slice(0, 3).map((comp) => (
                     <span
-                      className="text-xs font-bold px-2 py-1 text-white"
-                      style={{ backgroundColor: mission.couleur }}
+                      key={comp}
+                      className="text-xs px-2 py-0.5 bg-stone-100 text-stone-500"
                     >
-                      {mission.code}
+                      {comp}
                     </span>
-                    <span className={`text-xs font-medium ${urgence.text}`}>
-                      {urgence.label}
-                    </span>
-                  </div>
-                  <h3 className="text-lg font-bold text-stone-900 mb-2">
-                    {mission.nom}
-                  </h3>
-                  <p className="text-stone-600 text-sm mb-3 line-clamp-2">
-                    {mission.description}
-                  </p>
-                  <div className="flex flex-wrap gap-1">
-                    {mission.competences.slice(0, 3).map((comp) => (
-                      <span
-                        key={comp}
-                        className="text-xs px-2 py-0.5 bg-stone-100 text-stone-500"
-                      >
-                        {comp}
-                      </span>
-                    ))}
-                  </div>
-                </motion.div>
-              );
-            })}
+                  ))}
+                </div>
+              </motion.div>
+            ))}
           </div>
 
           {/* CTA */}

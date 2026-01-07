@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navigation = [
@@ -37,10 +38,18 @@ export default function Header() {
           {/* Logo */}
           <Link
             href="/"
-            className="flex items-center gap-2 text-stone-900 font-bold text-xl tracking-tight hover:text-stone-700 transition-colors"
+            className="flex items-center gap-3 hover:opacity-80 transition-opacity"
           >
-            <span className="text-amber-500 font-black">LT</span>
-            <span>La Traversée</span>
+            <Image
+              src="/images/logo.png"
+              alt="La Traversée"
+              width={48}
+              height={48}
+              className="w-12 h-12"
+            />
+            <span className="text-stone-900 font-black text-lg whitespace-nowrap">
+              La Traversée
+            </span>
           </Link>
 
           {/* Desktop Navigation */}

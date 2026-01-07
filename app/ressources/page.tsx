@@ -1,17 +1,12 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Badge, Card, Button, IconBox } from "@/components/ui";
-import { staggerContainer, staggerItem, viewportOnce } from "@/lib/animations";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+import Link from "next/link";
 
 const ressources = [
   {
     category: "Know Your Rights",
-    icon: (
-      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
-      </svg>
-    ),
     description: "Guides pratiques sur vos droits en tant qu'association ou citoyen",
     items: [
       {
@@ -33,11 +28,6 @@ const ressources = [
   },
   {
     category: "Outils de résilience",
-    icon: (
-      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-      </svg>
-    ),
     description: "Méthodes et outils pour renforcer votre organisation",
     items: [
       {
@@ -59,11 +49,6 @@ const ressources = [
   },
   {
     category: "Formation",
-    icon: (
-      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-      </svg>
-    ),
     description: "Ressources pour se former et former ses équipes",
     items: [
       {
@@ -85,11 +70,6 @@ const ressources = [
   },
   {
     category: "Veille et alertes",
-    icon: (
-      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-      </svg>
-    ),
     description: "Restez informé des évolutions législatives et politiques",
     items: [
       {
@@ -112,181 +92,172 @@ const ressources = [
 ];
 
 export default function RessourcesPage() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
   return (
-    <div className="min-h-screen bg-[var(--urgency-bg)]">
+    <div className="min-h-screen bg-[#FFFDF8]">
       {/* Hero */}
-      <section className="section-padding pt-32">
-        <div className="container-wide px-4 sm:px-6 lg:px-8">
+      <section className="pt-32 pb-16 md:pb-24">
+        <div className="max-w-5xl mx-auto px-6">
           <motion.div
-            variants={staggerContainer}
-            initial="hidden"
-            animate="visible"
-            className="max-w-4xl mx-auto text-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="max-w-3xl"
           >
-            <motion.div variants={staggerItem}>
-              <Badge variant="info" className="mb-6">
-                Boîte à outils
-              </Badge>
-            </motion.div>
-            <motion.h1
-              variants={staggerItem}
-              className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6"
-            >
+            <p className="text-sm uppercase tracking-[0.3em] text-stone-400 mb-4">
+              Boîte à outils
+            </p>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-stone-900 leading-tight mb-6">
               Ressources
-            </motion.h1>
-            <motion.p
-              variants={staggerItem}
-              className="text-xl text-white/70 max-w-2xl mx-auto"
-            >
+            </h1>
+            <p className="text-xl text-stone-600">
               Guides, outils et formations pour renforcer votre résilience
               et défendre vos droits.
-            </motion.p>
+            </p>
           </motion.div>
         </div>
       </section>
 
       {/* Resources */}
-      <section className="section-padding">
-        <div className="container-wide px-4 sm:px-6 lg:px-8">
-          <motion.div
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportOnce}
-            className="space-y-16"
-          >
+      <section ref={ref} className="py-16 md:py-24 bg-white">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="space-y-16">
             {ressources.map((category, catIndex) => (
-              <motion.div key={category.category} variants={staggerItem}>
-                <div className="flex items-center gap-4 mb-6">
-                  <IconBox variant="default" size="md">
-                    {category.icon}
-                  </IconBox>
-                  <div>
-                    <h2 className="text-2xl font-bold text-white">
-                      {category.category}
-                    </h2>
-                    <p className="text-white/60">{category.description}</p>
-                  </div>
+              <motion.div
+                key={category.category}
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: catIndex * 0.1 }}
+              >
+                <div className="mb-6">
+                  <h2 className="text-2xl font-black text-stone-900 mb-2">
+                    {category.category}
+                  </h2>
+                  <p className="text-stone-500">{category.description}</p>
                 </div>
 
-                <div className="grid md:grid-cols-3 gap-4">
+                <div className="grid md:grid-cols-3 gap-6">
                   {category.items.map((item, itemIndex) => (
-                    <Card key={itemIndex} hover className="h-full">
-                      <div className="flex flex-col h-full">
-                        <Badge variant="default" className="mb-3 self-start">
-                          {item.type}
-                        </Badge>
-                        <h3 className="text-white font-bold mb-2">
-                          {item.title}
-                        </h3>
-                        <p className="text-white/60 text-sm flex-1">
-                          {item.description}
-                        </p>
-                        <div className="mt-4 pt-4 border-t border-white/10">
-                          <button className="text-[var(--sunset-orange)] text-sm font-semibold flex items-center gap-1 hover:gap-2 transition-all">
-                            Accéder
-                            <svg
-                              className="w-4 h-4"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M9 5l7 7-7 7"
-                              />
-                            </svg>
-                          </button>
-                        </div>
-                      </div>
-                    </Card>
+                    <div
+                      key={itemIndex}
+                      className="border border-stone-200 p-5"
+                    >
+                      <span className="text-xs font-medium text-amber-600 mb-2 inline-block">
+                        {item.type}
+                      </span>
+                      <h3 className="text-stone-900 font-bold mb-2">
+                        {item.title}
+                      </h3>
+                      <p className="text-stone-600 text-sm mb-4">
+                        {item.description}
+                      </p>
+                      <button className="text-stone-700 text-sm font-semibold flex items-center gap-1 hover:text-stone-900 transition-colors">
+                        Accéder
+                        <svg
+                          className="w-4 h-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                      </button>
+                    </div>
                   ))}
                 </div>
               </motion.div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Gene Sharp */}
-      <section className="section-padding bg-[var(--urgency-surface)]">
-        <div className="container-wide px-4 sm:px-6 lg:px-8">
+      <section className="py-16 md:py-24 bg-stone-50">
+        <div className="max-w-5xl mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={viewportOnce}
-            className="max-w-4xl mx-auto"
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="border-l-4 border-emerald-500 pl-6 md:pl-8"
           >
-            <Card variant="espoir" className="p-8">
-              <div className="flex flex-col md:flex-row items-center gap-8">
-                <div className="flex-shrink-0 text-center">
-                  <span className="text-6xl font-black text-[var(--hope-emerald)]">
-                    198
-                  </span>
-                  <p className="text-[var(--ocean-midnight)]/70 mt-2">méthodes</p>
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-[var(--ocean-midnight)] mb-2">
-                    Les méthodes de Gene Sharp
-                  </h3>
-                  <p className="text-[var(--ocean-midnight)]/70 mb-4">
-                    "From Dictatorship to Democracy" répertorie 198 méthodes
-                    d'action non-violente testées dans le monde entier. De la
-                    protestation symbolique à la non-coopération économique.
-                  </p>
-                  <a
-                    href="https://www.aeinstein.org/free-resources/free-publications/english/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[var(--hope-emerald)] font-semibold flex items-center gap-2 hover:gap-3 transition-all"
-                  >
-                    Télécharger le livre (gratuit)
-                    <svg
-                      className="w-4 h-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                      />
-                    </svg>
-                  </a>
-                </div>
+            <div className="flex flex-col md:flex-row items-start gap-6">
+              <div className="flex-shrink-0">
+                <span className="text-5xl font-black text-emerald-600">198</span>
+                <p className="text-stone-500 mt-1">méthodes</p>
               </div>
-            </Card>
+              <div>
+                <h3 className="text-xl font-bold text-stone-900 mb-2">
+                  Les méthodes de Gene Sharp
+                </h3>
+                <p className="text-stone-600 mb-4">
+                  "From Dictatorship to Democracy" répertorie 198 méthodes
+                  d'action non-violente testées dans le monde entier. De la
+                  protestation symbolique à la non-coopération économique.
+                </p>
+                <a
+                  href="https://www.aeinstein.org/free-resources/free-publications/english/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-emerald-600 font-semibold flex items-center gap-2 hover:text-emerald-700 transition-colors"
+                >
+                  Télécharger le livre (gratuit)
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                    />
+                  </svg>
+                </a>
+              </div>
+            </div>
           </motion.div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="section-padding bg-gradient-to-b from-[var(--urgency-bg)] to-[var(--ocean-midnight)]">
-        <div className="container-wide px-4 sm:px-6 lg:px-8">
+      <section className="py-16 md:py-24 bg-stone-900">
+        <div className="max-w-5xl mx-auto px-6 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={viewportOnce}
-            className="max-w-3xl mx-auto text-center"
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
           >
-            <h2 className="text-3xl font-bold text-white mb-6">
+            <h2 className="text-3xl font-black text-white mb-6">
               Besoin d'accompagnement ?
             </h2>
-            <p className="text-white/70 mb-8">
+            <p className="text-stone-400 mb-8 max-w-xl mx-auto">
               Nos volontaires peuvent vous aider à mettre en place ces outils
               et renforcer votre structure.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button href="/jai-besoin">
+              <Link
+                href="/jai-besoin"
+                className="inline-flex items-center justify-center gap-2 bg-white text-stone-900 font-semibold px-8 py-4 hover:bg-stone-100 transition-colors"
+              >
                 Demander de l'aide
-              </Button>
-              <Button href="/je-veux-aider" variant="secondary">
+              </Link>
+              <Link
+                href="/je-veux-aider"
+                className="inline-flex items-center justify-center gap-2 text-white font-semibold px-8 py-4 border-2 border-stone-700 hover:border-stone-500 transition-colors"
+              >
                 Devenir volontaire
-              </Button>
+              </Link>
             </div>
           </motion.div>
         </div>

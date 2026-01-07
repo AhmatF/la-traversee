@@ -28,14 +28,14 @@ export default function JeVeuxAiderPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex flex-col pt-20">
+    <div className="min-h-screen bg-[#FFFDF8] flex flex-col pt-20">
       {/* Header with back button */}
-      <div className="flex-shrink-0 bg-white border-b border-gray-100">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="flex-shrink-0 bg-white border-b border-stone-200">
+        <div className="max-w-4xl mx-auto px-6">
           <div className="flex items-center justify-between h-16">
             <Link
               href="/"
-              className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
+              className="flex items-center gap-2 text-stone-600 hover:text-stone-900 transition-colors"
             >
               <svg
                 className="w-5 h-5"
@@ -56,7 +56,7 @@ export default function JeVeuxAiderPage() {
             {mode !== "choice" && (
               <button
                 onClick={() => setMode("choice")}
-                className="text-sm text-gray-500 hover:text-gray-700"
+                className="text-sm text-stone-500 hover:text-stone-700"
               >
                 Changer de méthode
               </button>
@@ -68,14 +68,14 @@ export default function JeVeuxAiderPage() {
       </div>
 
       {/* Title Section */}
-      <div className="flex-shrink-0 bg-white border-b border-gray-100">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div className="flex-shrink-0 bg-white border-b border-stone-200">
+        <div className="max-w-4xl mx-auto px-6 py-6">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             className="flex items-center gap-4"
           >
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[var(--sunset-orange)] to-[var(--hope-emerald)] flex items-center justify-center">
+            <div className="w-12 h-12 bg-amber-500 flex items-center justify-center">
               <svg
                 className="w-6 h-6 text-white"
                 fill="none"
@@ -91,8 +91,8 @@ export default function JeVeuxAiderPage() {
               </svg>
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Je veux aider</h1>
-              <p className="text-gray-500">
+              <h1 className="text-2xl font-black text-stone-900">Je veux aider</h1>
+              <p className="text-stone-500">
                 {mode === "choice"
                   ? "Choisissez comment nous parler de vous"
                   : mode === "ai"
@@ -112,9 +112,9 @@ export default function JeVeuxAiderPage() {
             animate={{ opacity: 1, scale: 1 }}
             className="flex flex-col items-center justify-center h-full p-8 text-center"
           >
-            <div className="w-20 h-20 rounded-full bg-[var(--hope-emerald)]/20 flex items-center justify-center mb-6">
+            <div className="w-20 h-20 bg-emerald-100 flex items-center justify-center mb-6">
               <svg
-                className="w-10 h-10 text-[var(--hope-emerald)]"
+                className="w-10 h-10 text-emerald-600"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -127,13 +127,13 @@ export default function JeVeuxAiderPage() {
                 />
               </svg>
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            <h2 className="text-2xl font-black text-stone-900 mb-2">
               Profil complété !
             </h2>
-            <p className="text-gray-600 mb-4">
+            <p className="text-stone-600 mb-4">
               Super {profile.name} ! On cherche les meilleures missions pour toi...
             </p>
-            <div className="animate-pulse text-[var(--sunset-orange)]">
+            <div className="animate-pulse text-amber-600">
               Redirection en cours...
             </div>
           </motion.div>

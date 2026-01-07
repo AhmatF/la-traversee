@@ -2,6 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import Link from "next/link";
 
 const histoires = [
   {
@@ -91,6 +92,19 @@ export default function HistoiresResistance() {
             <p className="text-lg md:text-xl">
               <span className="text-amber-400 font-semibold">La Pologne et le Brésil</span> nous montrent qu'avec une société civile mobilisée, l'alternance reste possible.
             </p>
+          </div>
+
+          {/* CTA to case studies */}
+          <div className="mt-8">
+            <Link
+              href="/exemples-internationaux"
+              className="inline-flex items-center gap-2 text-stone-700 font-semibold hover:text-stone-900 transition-colors"
+            >
+              Découvrir les études de cas détaillées
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </Link>
           </div>
         </motion.div>
       </div>

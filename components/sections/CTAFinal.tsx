@@ -73,11 +73,6 @@ export default function CTAFinal() {
               J'ai besoin d'aide
             </Link>
           </div>
-
-          {/* Trust */}
-          <p className="mt-10 text-stone-600 text-sm">
-            Gratuit, confidentiel, sans engagement
-          </p>
         </motion.div>
       </div>
     </section>
