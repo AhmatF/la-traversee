@@ -30,13 +30,14 @@ export default function Counter({
   separator = " ",
 }: CounterProps) {
   const [count, setCount] = useState(0);
+  const [hasAnimated, setHasAnimated] = useState(false);
   const ref = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const hasAnimated = useRef(false);
+  // Use amount instead of negative margin - more reliable on mobile
+  const isInView = useInView(ref, { once: true, amount: 0.3 });
 
   useEffect(() => {
-    if (!isInView || hasAnimated.current) return;
-    hasAnimated.current = true;
+    if (!isInView || hasAnimated) return;
+    setHasAnimated(true);
 
     const startTime = performance.now();
     const startValue = 0;
@@ -57,7 +58,18 @@ export default function Counter({
     };
 
     requestAnimationFrame(animate);
-  }, [isInView, end, duration]);
+  }, [isInView, end, duration, hasAnimated]);
+
+  // Fallback: if component has been mounted for 3s and still shows 0, show final value
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (count === 0 && !hasAnimated) {
+        setCount(end);
+        setHasAnimated(true);
+      }
+    }, 3000);
+    return () => clearTimeout(timeout);
+  }, [count, end, hasAnimated]);
 
   return (
     <span
