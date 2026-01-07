@@ -131,7 +131,7 @@ export function ChatContainer({
         throw new Error(`API request failed: ${response.status}`);
       }
 
-      // Handle streaming response
+      // Handle streaming response (raw text)
       const reader = response.body?.getReader();
       const decoder = new TextDecoder();
       let assistantContent = "";
@@ -145,32 +145,14 @@ export function ChatContainer({
           const { done, value } = await reader.read();
           if (done) break;
 
+          // Raw text stream - just append the chunk
           const chunk = decoder.decode(value, { stream: true });
-
-          // Parse SSE format: "data: {...}"
-          const lines = chunk.split("\n");
-          for (const line of lines) {
-            if (!line.trim() || !line.startsWith("data: ")) continue;
-
-            const jsonStr = line.slice(6); // Remove "data: " prefix
-            if (jsonStr === "[DONE]") continue;
-
-            try {
-              const data = JSON.parse(jsonStr);
-
-              // Handle text-delta events
-              if (data.type === "text-delta" && data.delta) {
-                assistantContent += data.delta;
-                setMessages(prev =>
-                  prev.map(m =>
-                    m.id === assistantId ? { ...m, content: assistantContent } : m
-                  )
-                );
-              }
-            } catch {
-              // Ignore parse errors
-            }
-          }
+          assistantContent += chunk;
+          setMessages(prev =>
+            prev.map(m =>
+              m.id === assistantId ? { ...m, content: assistantContent } : m
+            )
+          );
         }
       }
     } catch (error) {
