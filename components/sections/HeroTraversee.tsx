@@ -144,21 +144,17 @@ export default function HeroTraversee() {
             initial="hidden"
             animate="visible"
           >
-            <div className="relative aspect-[4/3] lg:aspect-[3/4] w-full">
-              {/* Subtle shadow frame */}
-              <div className="absolute inset-0 bg-stone-900/[0.03] translate-x-4 translate-y-4" />
-
-              {/* Image container */}
-              <div className="relative bg-[#FFFDF8] overflow-hidden">
-                <Image
-                  src="/images/hero-traversee.png"
-                  alt="Une foule diverse fait face au soleil levant - illustration style gravure"
-                  fill
-                  className="object-contain"
-                  priority
-                  sizes="(max-width: 1024px) 100vw, 40vw"
-                />
-              </div>
+            <div className="relative w-full">
+              {/* Image with proper aspect ratio */}
+              <Image
+                src="/images/hero-traversee.png"
+                alt="Chaîne humaine traversant de l'ombre vers la lumière - solidarité et espoir"
+                width={1344}
+                height={768}
+                className="w-full h-auto"
+                priority
+                sizes="(max-width: 1024px) 100vw, 40vw"
+              />
             </div>
 
             {/* Minimal caption */}
