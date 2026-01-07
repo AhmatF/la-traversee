@@ -1,16 +1,21 @@
 import { google } from "@ai-sdk/google";
-import { streamText, convertToModelMessages, type UIMessage } from "ai";
+import { streamText } from "ai";
 import { VOLUNTEER_SYSTEM_PROMPT, STRUCTURE_SYSTEM_PROMPT } from "@/lib/prompts";
 
 export const maxDuration = 60;
 
+interface ChatMessage {
+  role: "user" | "assistant";
+  content: string;
+}
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const messages: UIMessage[] = body.messages || [];
+    const rawMessages: ChatMessage[] = body.messages || [];
     const chatType: string = body.chatType || "volunteer";
 
-    if (!messages || messages.length === 0) {
+    if (!rawMessages || rawMessages.length === 0) {
       return new Response(JSON.stringify({ error: "No messages provided" }), {
         status: 400,
         headers: { "Content-Type": "application/json" },
@@ -25,10 +30,10 @@ export async function POST(req: Request) {
     const result = streamText({
       model: google("gemini-3-flash-preview"),
       system: systemPrompt,
-      messages: await convertToModelMessages(messages),
+      messages: rawMessages,
     });
 
-    return result.toUIMessageStreamResponse();
+    return result.toTextStreamResponse();
   } catch (error) {
     console.error("Chat API error:", error);
     return new Response(JSON.stringify({ error: String(error) }), {

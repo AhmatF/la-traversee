@@ -1,13 +1,18 @@
 import { google } from "@ai-sdk/google";
-import { streamText, convertToModelMessages, type UIMessage } from "ai";
+import { streamText } from "ai";
 import { STRUCTURE_SYSTEM_PROMPT } from "@/lib/prompts";
 
 export const maxDuration = 60;
 
+interface ChatMessage {
+  role: "user" | "assistant";
+  content: string;
+}
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const rawMessages: UIMessage[] = body.messages || [];
+    const rawMessages: ChatMessage[] = body.messages || [];
 
     if (!rawMessages || rawMessages.length === 0) {
       return new Response(JSON.stringify({ error: "No messages provided" }), {
@@ -19,10 +24,10 @@ export async function POST(req: Request) {
     const result = streamText({
       model: google("gemini-3-flash-preview"),
       system: STRUCTURE_SYSTEM_PROMPT,
-      messages: await convertToModelMessages(rawMessages),
+      messages: rawMessages,
     });
 
-    return result.toUIMessageStreamResponse();
+    return result.toTextStreamResponse();
   } catch (error) {
     console.error("Structure chat error:", error);
     return new Response(JSON.stringify({ error: String(error) }), {
